@@ -3,6 +3,7 @@ import {useSelector} from 'react-redux';
 import Navigation from './containers/Navigation/Navigation';
 import {Routes, Route, BrowserRouter} from 'react-router-dom';
 import CreateContainer from './containers/CreateContainer/CreateContainer';
+import AuthorizationContainer from './containers/AuthorizationContainer/AuthorizationContainer';
 
 const App = () => {
     const {user} = useSelector(state => state.users);
@@ -10,7 +11,7 @@ const App = () => {
         <BrowserRouter>
             <Routes>
                 <Route path='/' element={<Navigation/>}>
-                    <Route index element={<div>Authorization</div>}/>
+                    <Route index element={<AuthorizationContainer/>}/>
                     <Route path='register' element={<div>register</div>}/>
                     <Route path='create' element={<CreateContainer/>}/>
                     <Route path='requests' element={<div>requests</div>}/>
