@@ -1,0 +1,47 @@
+.sideBar {
+    width: 180px;
+    background-color: rgba(170, 170, 163, 0.4);
+    position: fixed;
+    top: 64px;
+    bottom: 0;
+    left: 0;
+    padding: 10px;
+}
+
+.sideBarOpen {
+    animation-name: sideBarOpenAnimation;
+    animation-duration: 0.6s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+}
+
+.sideBarClose {
+    animation-name: sideBarCloseAnimation;
+    animation-duration: 0.6s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+}
+
+@keyframes sideBarOpenAnimation {
+    from {
+      transform: translate(-180px);
+    }
+    to {
+      transform: translate(0px);
+    }
+}
+
+@keyframes sideBarCloseAnimation {
+    from {
+      transform: translate(0px);
+    }
+    to {
+      transform: translate(-180px);
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .sideBar {
+        top: 56px;
+    }
+}
