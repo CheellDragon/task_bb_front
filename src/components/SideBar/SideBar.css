@@ -1,11 +1,13 @@
 .sideBar {
-    width: 180px;
-    background-color: rgba(170, 170, 163, 0.4);
+    width: 200px;
+    background-color: rgba(46, 125, 50, 0.7);
     position: fixed;
     top: 64px;
     bottom: 0;
     left: 0;
     padding: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
 .sideBarOpen {
@@ -24,7 +26,7 @@
 
 @keyframes sideBarOpenAnimation {
     from {
-      transform: translate(-180px);
+      transform: translate(-200px);
     }
     to {
       transform: translate(0px);
@@ -36,7 +38,7 @@
       transform: translate(0px);
     }
     to {
-      transform: translate(-180px);
+      transform: translate(-200px);
     }
 }
 
@@ -44,4 +46,21 @@
     .sideBar {
         top: 56px;
     }
+}
+
+.sideNavLink {
+  color: white;
+  font-size: 18px;
+  display: inline-block;
+  display: flex;
+  align-items: center;
+}
+
+.sideNavLink:hover {
+  opacity: 0.7;
+}
+
+.sideNavLink:active {
+  transform: scale(1.1);
+  transition-duration: 0.2s;
 }

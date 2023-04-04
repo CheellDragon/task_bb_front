@@ -14,7 +14,7 @@ const Header = ({isAuthorized, signNav, registerNav, openSideBar, isSideBarOpen,
         currentPage = false;
     }
     return (
-        <AppBar position="static" color="transparent">
+        <AppBar position="static" color="success">
             <Toolbar className="header">
                 {
                     isAuthorized ?

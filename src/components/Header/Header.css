@@ -23,7 +23,7 @@
     animation-fill-mode: forwards;
 }
 .header .authorizationButton:hover {
-    background-color: rgba(133, 132, 132, 0.3);
+    background-color: rgba(4, 255, 0, 0.4);
 }
   
 @keyframes aauthorizationButtonAnimation {

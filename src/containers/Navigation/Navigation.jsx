@@ -24,6 +24,15 @@ const Navigation = (user) => {
     const registerNav = () => {
         navigate("/register")
     }
+    const createNav = () => {
+        navigate("/create")
+    }
+    const requestsNav = () => {
+        navigate("/requests")
+    }
+    const historyNav = () => {
+        navigate("/history")
+    }
     return (
     <>
         <CssBaseline/>
@@ -31,14 +40,14 @@ const Navigation = (user) => {
             <Header isAuthorized={isAuthorized} openSideBar={openSideBar} registerNav={registerNav} signNav={signNav} isSideBarOpen={isSideBarOpen} currentPage={currentPage}/>
             {
                 isSideBarOpen 
-                ? <SideBar close={"sideBarOpen"}/>
+                ? <SideBar createNav={createNav} requestsNav={requestsNav} historyNav={historyNav} close={"sideBarOpen"}/>
                 : <SideBar close={"sideBarClose"}/>
             }
         </nav>
         
         {
             isSideBarOpen 
-            ? <div className='container mr180'><Outlet /></div>
+            ? <div className='container mr200'><Outlet /></div>
             : <div className='container'><Outlet /></div>
         }
     </>
