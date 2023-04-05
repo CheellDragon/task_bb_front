@@ -61,7 +61,7 @@ const Navigation = () => {
             {
                 isSideBarOpen 
                 ? <SideBar createNav={createNav} requestsNav={requestsNav} historyNav={historyNav} close={"sideBarOpen"}/>
-                : <SideBar close={"sideBarClose"}/>
+                : <SideBar/>
             }
         </nav>
         
