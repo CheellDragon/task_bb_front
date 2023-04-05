@@ -13,7 +13,7 @@ export const loginUser = createAsyncThunk(
     async (payload, thunkApi) => {
         try {
             const res = await axios.get('http://localhost:5136/User/Login?PhoneNumber=' + payload.userData.phone + '&Password=' + payload.userData.password);
-            payload.navigate('/');
+            payload.navigate('/create');
             return res.data;
         } catch (e) {
             if (e.response && e.response.data) {
@@ -28,8 +28,12 @@ export const loginUser = createAsyncThunk(
 export const registerUser = createAsyncThunk(
     'users/register',
     async (payload, thunkApi) => {
+        let body = new FormData();
+        body.append('name',payload.userData.name);
+        body.append('phoneNumber',payload.userData.phoneNumber);
+        body.append('password',payload.userData.password);
         try {
-            const res = await axios.post('/users', payload.userData);
+            const res = await axios.post("http://localhost:5136/User/RegisterNewUser", body);
             payload.navigate('/');
             return res.data;
         } catch (e) {
