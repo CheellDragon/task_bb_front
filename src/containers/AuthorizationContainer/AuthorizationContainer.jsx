@@ -1,16 +1,21 @@
 import Authorization from "../../components/Authorization/Authorization";
 import { useDispatch } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { loginUser } from "../../store/services/usersSlice";
 import { useNavigate } from "react-router-dom";
 
-const AuthorizationContainer = () => {
+const AuthorizationContainer = ({user}) => {
     const [state,setState] = useState({
         phone: '',
         password: '',
     });
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    useEffect(() => {
+        if(!!user) {
+            navigate('/create')
+        }
+    })
 
     const submitFormHandler = e => {
         e.preventDefault();

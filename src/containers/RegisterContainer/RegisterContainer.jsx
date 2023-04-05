@@ -1,10 +1,10 @@
 import Register from "../../components/Register/Register";
 import { useDispatch } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { registerUser } from "../../store/services/usersSlice";
 import { useNavigate } from "react-router-dom";
 
-const RegisterContainer = () => {
+const RegisterContainer = ({user}) => {
     const [state,setState] = useState({
         name: '',
         phoneNumber: '',
@@ -12,6 +12,11 @@ const RegisterContainer = () => {
     });
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    useEffect(() => {
+        if(!!user) {
+            navigate('/create')
+        }
+    })
 
     const submitFormHandler = e => {
         dispatch(registerUser({

@@ -8,6 +8,7 @@ import RegisterContainer from './containers/RegisterContainer/RegisterContainer'
 import RequestsContainer from './containers/RequestsContainer/RequestsContainer';
 import ProtectedRoute from './containers/ProtectedRoute/ProtectedRoute';
 import HistoryContainer from './containers/HistoryContainer/HistoryContainer';
+import Status from './containers/Status/Status';
 
 const App = () => {
     const {user} = useSelector(state => state.users);
@@ -15,8 +16,8 @@ const App = () => {
         <BrowserRouter>
             <Routes>
                 <Route path='/' element={<Navigation user={user}/>}>
-                    <Route index element={<AuthorizationContainer/>}/>
-                    <Route path='register' element={<RegisterContainer/>}/>
+                    <Route index element={<AuthorizationContainer user={user}/>}/>
+                    <Route path='register' element={<RegisterContainer user={user}/>}/>
                     <Route path='create' element={
                         <ProtectedRoute
                             isAllowed={user}
@@ -41,6 +42,7 @@ const App = () => {
                             <HistoryContainer/>
                         </ProtectedRoute>
                     }/>
+                    <Route path="modal/:message" element={<Status/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>
