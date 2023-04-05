@@ -41,7 +41,7 @@ const Header = ({isAuthorized, signNav, registerNav, openSideBar, isSideBarOpen,
                 {
                     !!user ?
                     <Box sx={{ display: "flex", alignItems: "center" }}>
-                        <Typography sx={{ maxWidth: "50px", overflow: "hidden", mr: 0.5 }}>{`${user}`}</Typography>
+                        <Typography sx={{ maxWidth: "50px", overflow: "hidden", mr: 0.5 }}>{`${user.fio}`}</Typography>
                         <Typography className="authorizationButton" sx={{ maxWidth: "60px", padding: "3px" ,border: "1px solid white" }} onClick={logoutU}>Выйти</Typography>
                     </Box>
                     

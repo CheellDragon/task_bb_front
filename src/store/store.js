@@ -5,7 +5,9 @@ import usersSlice from './services/usersSlice';
 
 const localStorageMiddleware = ({getState}) => next => action => {
     const result = next(action);
-    localStorage.setItem('user', getState().users.user);
+    let item = JSON.stringify(getState().users.user);
+    console.log(item);
+    localStorage.setItem('user', item);
     return result;
 };
 
@@ -14,7 +16,7 @@ const loadFromLocalStorage = () => {
         if(localStorage.getItem('user') === "null") {
             return {users: {user: null}}
         } else {
-            return {users: {user: localStorage.getItem('user')}}
+            return {users: {user: JSON.parse(localStorage.getItem('user'))}}
         }
     }
     return null;
