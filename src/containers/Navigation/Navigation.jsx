@@ -7,17 +7,23 @@ import { useNavigate } from "react-router-dom";
 import {CssBaseline} from "@mui/material";
 import { Outlet } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logoutUser } from '../../store/services/usersSlice';
+import { useSelector } from 'react-redux';
 
-const Navigation = ({user}) => {
+const Navigation = () => {
     // Если Клиент не вошел в аккаунт не показывать функционал
+    const {user} = useSelector(state => state.users);
     const isAuthorized = !!user;
     const [isSideBarOpen,setIsSideBarOpen] = useState(false);
     // Считать где находится пользователь если клиент в регистраций то кнопку Войти и наоборот
     const currentPage = useLocation().pathname;
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const openSideBar = () => {
         setIsSideBarOpen(!isSideBarOpen);
     }
+    console.log(user);
     const signNav = () => {
         navigate("/")
     }
@@ -33,11 +39,26 @@ const Navigation = ({user}) => {
     const historyNav = () => {
         navigate("/history")
     }
+    const logoutU = () => {
+        dispatch(logoutUser({
+            UserData: "d",
+            navigate
+        }))
+    }
     return (
     <>
         <CssBaseline/>
         <nav className="nav">
-            <Header isAuthorized={isAuthorized} openSideBar={openSideBar} registerNav={registerNav} signNav={signNav} isSideBarOpen={isSideBarOpen} currentPage={currentPage}/>
+            <Header
+                user={user}
+                isAuthorized={isAuthorized}
+                openSideBar={openSideBar}
+                registerNav={registerNav}
+                signNav={signNav}
+                isSideBarOpen={isSideBarOpen}
+                currentPage={currentPage}
+                logoutU={logoutU}
+            />
             {
                 isSideBarOpen 
                 ? <SideBar createNav={createNav} requestsNav={requestsNav} historyNav={historyNav} close={"sideBarOpen"}/>

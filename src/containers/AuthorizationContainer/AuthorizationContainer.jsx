@@ -1,6 +1,6 @@
 import Authorization from "../../components/Authorization/Authorization";
 import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { loginUser } from "../../store/services/usersSlice";
 import { useNavigate } from "react-router-dom";
 
@@ -11,11 +11,6 @@ const AuthorizationContainer = ({user}) => {
     });
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    useEffect(() => {
-        if(!!user) {
-            navigate('/create')
-        }
-    })
 
     const submitFormHandler = e => {
         e.preventDefault();

@@ -2,10 +2,7 @@ import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "../../axios/api";
 
 const initialState = {
-    registerError: null,
-    global: null,
-    loginError: null,
-    user: false
+    user: null
 }
 
 export const loginUser = createAsyncThunk(
@@ -15,13 +12,7 @@ export const loginUser = createAsyncThunk(
             const res = await axios.get('http://localhost:5136/User/Login?PhoneNumber=' + payload.userData.phone + '&Password=' + payload.userData.password);
             payload.navigate('/create');
             return res.data;
-        } catch (e) {
-            if (e.response && e.response.data) {
-                thunkApi.dispatch(usersSlice.actions.catchLoginError(e.response.data));
-            } else {
-                thunkApi.dispatch(usersSlice.actions.globalError(e));
-            }
-        }
+        } catch (e) {}
     }
 )
 
@@ -36,63 +27,38 @@ export const registerUser = createAsyncThunk(
             const res = await axios.post("http://localhost:5136/User/RegisterNewUser", body);
             payload.navigate('/');
             return res.data;
-        } catch (e) {
-            if (e.response && e.response.data) {
-                thunkApi.dispatch(usersSlice.actions.catchRegisterError(e.response.data));
-            } else {
-                thunkApi.dispatch(usersSlice.actions.globalError(e));
-            }
-        }
+        } catch (e) {}
     }
 )
 
 export const logoutUser = createAsyncThunk(
-    'logout/users',
-    async (payload, thunkAPI) => {
-        await axios.delete('users/sessions');
-        thunkAPI.dispatch(usersSlice.actions.logoutUser());
-        payload.navigate('/');
+    'users/logout',
+    async (payload, thunkApi) => {
+        try {
+            const res = await axios.get('http://localhost:5136/User/Login?PhoneNumber=45&Password=45');
+            payload.navigate('/create');
+            return res.data;
+        } catch (e) {}
     }
 )
+
+
 const usersSlice = createSlice({
     name: 'users',
     initialState,
     reducers: {
-        catchRegisterError: (state, action) => {
-            state.registerError = action.payload;
-        },
-        catchLoginError: (state, action) => {
-            state.loginError = action.payload;
-        },
-        globalError: (state, action) => {
-            state.global = action.payload;
-        },
         logoutUser: (state) => {
             state.user = null;
         }
     },
     extraReducers: builder => {
         builder
-            .addCase(registerUser.fulfilled, state => {
-                state.loginError = undefined;
-                state.global = undefined;
-            })
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.user = action.payload;
-                state.registerError = undefined;
-                state.global = undefined;
             })
-            .addCase(registerUser.pending, state => {
-                state.loginError = undefined;
-                state.global = undefined;
-                state.registerError = undefined;
+            .addCase(logoutUser.fulfilled, (state) => {
+                state.user = false;
             })
-            .addCase(loginUser.pending, state => {
-                state.loginError = undefined;
-                state.global = undefined;
-                state.registerError = undefined;
-            })
-
     }
 })
 

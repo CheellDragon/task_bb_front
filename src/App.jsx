@@ -15,9 +15,23 @@ const App = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path='/' element={<Navigation user={user}/>}>
-                    <Route index element={<AuthorizationContainer user={user}/>}/>
-                    <Route path='register' element={<RegisterContainer user={user}/>}/>
+                <Route path='/' element={<Navigation/>}>
+                    <Route index element={
+                        <ProtectedRoute
+                            isAllowed={!user}
+                            redirectedPath='create'
+                        >
+                            <AuthorizationContainer/>
+                        </ProtectedRoute>
+                    }/>
+                    <Route path='register' element={
+                        <ProtectedRoute
+                            isAllowed={!user}
+                            redirectedPath='create'
+                        >
+                            <RegisterContainer/>
+                        </ProtectedRoute>}
+                    />
                     <Route path='create' element={
                         <ProtectedRoute
                             isAllowed={user}

@@ -6,8 +6,9 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
+import { Box } from "@mui/material";
 
-const Header = ({isAuthorized, signNav, registerNav, openSideBar, isSideBarOpen, currentPage}) => {
+const Header = ({isAuthorized, signNav, registerNav, openSideBar, isSideBarOpen, currentPage, user, logoutU}) => {
     if(currentPage === '/register') {
         currentPage = true;
     } else {
@@ -38,9 +39,15 @@ const Header = ({isAuthorized, signNav, registerNav, openSideBar, isSideBarOpen,
                 }
                 <Typography className="logo">Test Dotnet</Typography>
                 {
-                    currentPage
-                    ? <Typography className="authorizationButton" onClick={signNav}>Войти</Typography>
-                    : <Typography className="authorizationButton" onClick={registerNav}>Регистрация</Typography>
+                    !!user ?
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <Typography sx={{ maxWidth: "50px", overflow: "hidden", mr: 0.5 }}>{`${user}`}</Typography>
+                        <Typography className="authorizationButton" sx={{ maxWidth: "60px", padding: "3px" ,border: "1px solid white" }} onClick={logoutU}>Выйти</Typography>
+                    </Box>
+                    
+                    : currentPage
+                        ? <Typography className="authorizationButton" sx={{ border: "1px solid white" }} onClick={signNav}>Войти</Typography>
+                        : <Typography className="authorizationButton" sx={{ border: "1px solid white" }} onClick={registerNav}>Регистрация</Typography>
                 }
             </Toolbar>
         </AppBar>
