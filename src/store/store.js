@@ -10,8 +10,8 @@ const localStorageMiddleware = ({getState}) => next => action => {
 };
 
 const loadFromLocalStorage = () => {
-    if(localStorage.getItem('user') !== null) {
-        return {users: {user: JSON.parse(localStorage.getItem('user'))}}
+    if(localStorage.getItem('user') !== false) {
+        return {users: {user: localStorage.getItem('user')}}
     }
     return undefined;
 }

@@ -1,8 +1,8 @@
-import Register from "../../components/Register/Register";
+import Requests from "../../components/Requests/Requests";
 
 const RequestsContainer = () => {
     return (
-        <Register/>
+        <Requests/>
     )
 };
 

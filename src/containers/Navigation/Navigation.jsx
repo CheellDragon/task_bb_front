@@ -8,9 +8,9 @@ import {CssBaseline} from "@mui/material";
 import { Outlet } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 
-const Navigation = (user) => {
+const Navigation = ({user}) => {
     // Если Клиент не вошел в аккаунт не показывать функционал
-    const isAuthorized = true;// make from user
+    const isAuthorized = !!user;
     const [isSideBarOpen,setIsSideBarOpen] = useState(false);
     // Считать где находится пользователь если клиент в регистраций то кнопку Войти и наоборот
     const currentPage = useLocation().pathname;

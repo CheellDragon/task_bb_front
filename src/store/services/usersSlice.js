@@ -5,14 +5,14 @@ const initialState = {
     registerError: null,
     global: null,
     loginError: null,
-    user: null
+    user: false
 }
 
 export const loginUser = createAsyncThunk(
     'users/login',
     async (payload, thunkApi) => {
         try {
-            const res = await axios.post('/users/sessions', payload.userData);
+            const res = await axios.get('http://localhost:5136/User/Login?PhoneNumber=' + payload.userData.phone + '&Password=' + payload.userData.password);
             payload.navigate('/');
             return res.data;
         } catch (e) {
@@ -74,7 +74,7 @@ const usersSlice = createSlice({
                 state.global = undefined;
             })
             .addCase(loginUser.fulfilled, (state, action) => {
-                state.user = action.payload.user;
+                state.user = action.payload;
                 state.registerError = undefined;
                 state.global = undefined;
             })
