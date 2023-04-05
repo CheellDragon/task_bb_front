@@ -4,7 +4,7 @@ import { useState } from "react";
 import { loginUser } from "../../store/services/usersSlice";
 import { useNavigate } from "react-router-dom";
 
-const AuthorizationContainer = ({user}) => {
+const AuthorizationContainer = () => {
     const [state,setState] = useState({
         phone: '',
         password: '',
