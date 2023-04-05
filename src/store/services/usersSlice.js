@@ -2,7 +2,8 @@ import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "../../axios/api";
 
 const initialState = {
-    user: null
+    user: null,
+    error: null
 }
 
 export const loginUser = createAsyncThunk(
@@ -12,7 +13,10 @@ export const loginUser = createAsyncThunk(
             const res = await axios.get('http://localhost:5136/User/Login?PhoneNumber=' + payload.userData.phone + '&Password=' + payload.userData.password);
             payload.navigate('/create');
             return res.data;
-        } catch (e) {}
+        } catch (e) {
+            payload.navigate('/status/' + e.message);
+            return null;
+        }
     }
 )
 
@@ -25,9 +29,13 @@ export const registerUser = createAsyncThunk(
         body.append('password',payload.userData.password);
         try {
             const res = await axios.post("http://localhost:5136/User/RegisterNewUser", body);
+            console.log(res.data);
             payload.navigate('/status/Успешная регистрация для пользователя - ' + payload.userData.name + '! Ваш логин: ' + payload.userData.phoneNumber);
             return res.data;
-        } catch (e) {}
+        } catch (e) {
+            payload.navigate('/status/' + e.message);
+            return null;
+        }
     }
 )
 
@@ -35,8 +43,8 @@ export const logoutUser = createAsyncThunk(
     'users/logout',
     async (payload, thunkApi) => {
         try {
-            const res = await axios.get('http://localhost:5136/User/Login?PhoneNumber=45&Password=45');
-            payload.navigate('/create');
+            const res = await axios.get('http://localhost:5136/User/Success');
+            payload.navigate('/');
             return res.data;
         } catch (e) {}
     }
@@ -53,8 +61,11 @@ const usersSlice = createSlice({
     },
     extraReducers: builder => {
         builder
+            .addCase(loginUser.rejected, (state, action) => {
+                state.error = action.payload
+            })
             .addCase(loginUser.fulfilled, (state, action) => {
-                state.user = action.payload.phoneNumber;
+                if(action.payload === null) {} else{state.user = action.payload.phoneNumber;}
             })
             .addCase(logoutUser.fulfilled, (state) => {
                 state.user = null;
