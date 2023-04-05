@@ -56,7 +56,7 @@ const App = () => {
                             <HistoryContainer/>
                         </ProtectedRoute>
                     }/>
-                    <Route path="modal/:message" element={<Status/>}/>
+                    <Route path="status/:message" element={<Status/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>

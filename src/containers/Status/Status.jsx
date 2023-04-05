@@ -4,11 +4,9 @@ import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import Typography from '@mui/material/Typography';
 import { useParams } from 'react-router';
 import { useNavigate } from "react-router-dom";
 
@@ -62,14 +60,10 @@ const Status = () => {
         aria-labelledby="customized-dialog-title"
         open={true}
       >
-        <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Modal title
+        <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}
+        sx={{padding: "50px"}}>
+          {message}
         </BootstrapDialogTitle>
-        <DialogContent dividers>
-          <Typography gutterBottom>
-            {message}
-          </Typography>
-        </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>
             OK

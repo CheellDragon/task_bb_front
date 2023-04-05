@@ -25,7 +25,7 @@ export const registerUser = createAsyncThunk(
         body.append('password',payload.userData.password);
         try {
             const res = await axios.post("http://localhost:5136/User/RegisterNewUser", body);
-            payload.navigate('/');
+            payload.navigate('/status/' + payload.userData.name + ' успешная регистрация! Логин: ' + payload.userData.phoneNumber);
             return res.data;
         } catch (e) {}
     }

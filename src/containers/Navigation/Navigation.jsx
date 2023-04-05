@@ -23,7 +23,6 @@ const Navigation = () => {
     const openSideBar = () => {
         setIsSideBarOpen(!isSideBarOpen);
     }
-    console.log(user);
     const signNav = () => {
         navigate("/")
     }
