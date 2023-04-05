@@ -54,7 +54,7 @@ const usersSlice = createSlice({
     extraReducers: builder => {
         builder
             .addCase(loginUser.fulfilled, (state, action) => {
-                state.user = action.payload;
+                state.user = action.payload.phoneNumber;
             })
             .addCase(logoutUser.fulfilled, (state) => {
                 state.user = null;
