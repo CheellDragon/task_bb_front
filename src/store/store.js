@@ -6,7 +6,6 @@ import usersSlice from './services/usersSlice';
 const localStorageMiddleware = ({getState}) => next => action => {
     const result = next(action);
     let item = JSON.stringify(getState().users.user);
-    console.log(item);
     localStorage.setItem('user', item);
     return result;
 };

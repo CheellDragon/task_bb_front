@@ -7,3 +7,9 @@
 .mr200 {
     margin-left: 200px;
 }
+
+@media screen and (max-width: 600px) {
+    .mr200 {
+        margin-left: 0px;
+    }
+}

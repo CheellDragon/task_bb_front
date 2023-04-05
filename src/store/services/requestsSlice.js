@@ -2,7 +2,7 @@ import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "../../axios/api";
 
 const initialState = {
-    requests: [],
+    requests: null,
     modalShow: false,
 };
 
@@ -24,12 +24,64 @@ export const createRequest = createAsyncThunk(
         }
     }
 )
+
+export const getMyRequests = createAsyncThunk(
+    'requests/getMy',
+    async (payload, thunkApi) => {
+        try {
+            const response = await axios.get(`http://localhost:5136/Request/GetRequest?Id=${payload.id}`);
+            console.log(response);
+            return response.data;
+        } catch (e) {
+            payload.navigate('/status/' + e.message);
+            return null;
+        }
+    }
+)
+
+export const getAllRequests = createAsyncThunk(
+    'requests/getAll',
+    async (payload, thunkApi) => {
+        try {
+            const response = await axios.get('http://localhost:5136/Request/GetAllRequests');
+            return response.data;
+        } catch (e) {
+            payload.navigate('/status/' + e.message);
+            return null;
+        }
+    }
+)
+
 const requestsSlice = createSlice({
     name: 'requests',
     initialState,
     reducers: {
     },
-    extraReducers:  {}
-})
+    extraReducers:  builder => {
+        builder
+            .addCase(getMyRequests.pending, (state) => {
+                state.modalShow = true
+            })
+            .addCase(getMyRequests.rejected, (state) => {
+                state.modalShow = false
+                state.requests = null
+            })
+            .addCase(getMyRequests.fulfilled, (state, action) => {
+                state.modalShow = false
+                state.requests = action.payload
+            })
+            .addCase(getAllRequests.pending, (state) => {
+                state.modalShow = true
+            })
+            .addCase(getAllRequests.rejected, (state) => {
+                state.modalShow = false
+                state.requests = null
+            })
+            .addCase(getAllRequests.fulfilled, (state, action) => {
+                state.modalShow = false
+                state.requests = action.payload
+            })
+    }
+});
 export const {modalShow, modalClose} = requestsSlice.actions;
 export default requestsSlice.reducer;

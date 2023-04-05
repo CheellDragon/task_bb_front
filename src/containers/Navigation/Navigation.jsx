@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './Navigation.css';
 import Header from '../../components/Header/Header';
 import { useState } from "react";
@@ -20,6 +20,13 @@ const Navigation = () => {
     const currentPage = useLocation().pathname;
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    useEffect(() => {
+        if(!!user) {
+            setIsSideBarOpen(true);
+        } else {
+            setIsSideBarOpen(false);
+        }
+    },[user])
     const openSideBar = () => {
         setIsSideBarOpen(!isSideBarOpen);
     }

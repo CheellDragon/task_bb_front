@@ -29,7 +29,6 @@ export const registerUser = createAsyncThunk(
         body.append('password',payload.userData.password);
         try {
             const res = await axios.post("http://localhost:5136/User/RegisterNewUser", body);
-            console.log(res.data);
             payload.navigate('/status/Успешная регистрация для пользователя - ' + payload.userData.name + '! Ваш логин: ' + payload.userData.phoneNumber);
             return res.data;
         } catch (e) {
@@ -43,7 +42,7 @@ export const logoutUser = createAsyncThunk(
     'users/logout',
     async (payload, thunkApi) => {
         try {
-            const res = await axios.get('http://localhost:5136/User/Success');
+            const res = await axios.get('http://localhost:5136/Request/GetRequest?Id=1000');
             payload.navigate('/');
             return res.data;
         } catch (e) {}
@@ -55,9 +54,6 @@ const usersSlice = createSlice({
     name: 'users',
     initialState,
     reducers: {
-        logoutUser: (state) => {
-            state.user = null;
-        }
     },
     extraReducers: builder => {
         builder

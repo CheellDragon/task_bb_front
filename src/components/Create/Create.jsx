@@ -37,6 +37,7 @@ const Create = ({submitFormHandler,emailHandler,typeHandler,fioHandler,phoneHand
                     name="radio-buttons-group"
                     sx={{mb: 2.2}}
                     onChange={typeHandler}
+                    className="radio"
                 >
                     <FormControlLabel value="Продажа" control={<Radio />} label="Продажа" />
                     <FormControlLabel value="Покупка" control={<Radio />} label="Покупка" />
