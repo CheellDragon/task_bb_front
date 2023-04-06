@@ -13,7 +13,7 @@ const Requests = ({getingMyRequest,getingAllRequest,requests}) => {
                 requests === null
                 ? null
                 : requests.length > 0
-                    ? <EnhancedTable/>
+                    ? <EnhancedTable rows={requests}/>
                     : <p>Заявок на данный момент нет</p>
             }
         </>

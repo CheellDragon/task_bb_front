@@ -18,35 +18,9 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-
-function createData(name, calories, fat, carbs, protein) {
-  return {
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
-  };
-}
-
-const rows = [
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Donut', 452, 25.0, 51, 4.9),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Honeycomb', 408, 3.2, 87, 6.5),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Jelly Bean', 375, 0.0, 94, 0.0),
-  createData('KitKat', 518, 26.0, 65, 7.0),
-  createData('Lollipop', 392, 0.2, 98, 0.0),
-  createData('Marshmallow', 318, 0, 81, 2.0),
-  createData('Nougat', 360, 19.0, 9, 37.0),
-  createData('Oreo', 437, 18.0, 63, 4.0),
-];
+import { Button } from '@mui/material';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -82,34 +56,40 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: 'name',
+    id: 'id',
     numeric: false,
     disablePadding: true,
-    label: 'Dessert (100g serving)',
+    label: 'Id',
   },
   {
-    id: 'calories',
+    id: 'phoneNumber',
     numeric: true,
     disablePadding: false,
-    label: 'Calories',
+    label: 'Телефонный номер',
   },
   {
-    id: 'fat',
+    id: 'fio',
     numeric: true,
     disablePadding: false,
-    label: 'Fat (g)',
+    label: 'ФИО',
   },
   {
-    id: 'carbs',
+    id: 'email',
     numeric: true,
     disablePadding: false,
-    label: 'Carbs (g)',
+    label: 'Почта',
   },
   {
-    id: 'protein',
+    id: 'type',
     numeric: true,
     disablePadding: false,
-    label: 'Protein (g)',
+    label: 'Тип',
+  },
+  {
+    id: 'UserId',
+    numeric: true,
+    disablePadding: false,
+    label: 'Id пользователя',
   },
 ];
 
@@ -194,7 +174,7 @@ function EnhancedTableToolbar(props) {
           variant="subtitle1"
           component="div"
         >
-          {numSelected} selected
+          {numSelected} выбранно
         </Typography>
       ) : (
         <Typography
@@ -203,16 +183,15 @@ function EnhancedTableToolbar(props) {
           id="tableTitle"
           component="div"
         >
-          Nutrition
+          Список запросов
         </Typography>
       )}
 
       {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
+        <>
+          <Button sx={{mr: 2}} color={'success'} variant="contained">Удалить Заявки</Button>
+          <Button color={'success'} variant="contained">Добавить себе</Button>
+        </>
       ) : (
         <Tooltip title="Filter list">
           <IconButton>
@@ -228,10 +207,11 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable() {
+export default function EnhancedTable({rows}) {
   const [order, setOrder] = React.useState(DEFAULT_ORDER);
   const [orderBy, setOrderBy] = React.useState(DEFAULT_ORDER_BY);
   const [selected, setSelected] = React.useState([]);
+  console.log(selected);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [visibleRows, setVisibleRows] = React.useState(null);
@@ -272,7 +252,7 @@ export default function EnhancedTable() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n.name);
+      const newSelected = rows.map((n) => n.id);
       setSelected(newSelected);
       return;
     }
@@ -369,17 +349,17 @@ export default function EnhancedTable() {
             <TableBody>
               {visibleRows
                 ? visibleRows.map((row, index) => {
-                    const isItemSelected = isSelected(row.name);
+                    const isItemSelected = isSelected(row.id);
                     const labelId = `enhanced-table-checkbox-${index}`;
 
                     return (
                       <TableRow
                         hover
-                        onClick={(event) => handleClick(event, row.name)}
+                        onClick={(event) => handleClick(event, row.id)}
                         role="checkbox"
                         aria-checked={isItemSelected}
                         tabIndex={-1}
-                        key={row.name}
+                        key={row.id}
                         selected={isItemSelected}
                         sx={{ cursor: 'pointer' }}
                       >
@@ -398,12 +378,13 @@ export default function EnhancedTable() {
                           scope="row"
                           padding="none"
                         >
-                          {row.name}
+                          {row.id}
                         </TableCell>
-                        <TableCell align="right">{row.calories}</TableCell>
-                        <TableCell align="right">{row.fat}</TableCell>
-                        <TableCell align="right">{row.carbs}</TableCell>
-                        <TableCell align="right">{row.protein}</TableCell>
+                        <TableCell align="right">{row.phoneNumber}</TableCell>
+                        <TableCell align="right">{row.fio}</TableCell>
+                        <TableCell align="right">{row.email}</TableCell>
+                        <TableCell align="right">{row.type}</TableCell>
+                        <TableCell align="right">{row.UserId ? row.UserId : <p>пусто</p>}</TableCell>
                       </TableRow>
                     );
                   })
