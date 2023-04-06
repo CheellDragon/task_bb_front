@@ -1,8 +1,8 @@
 import { Button,Box } from "@mui/material";
-import EnhancedTable from "./RequestsTable/RequestsTable";
+import RequestsTable from "./RequestsTable/RequestsTable";
 import './Requests.css';
 
-const Requests = ({getingMyRequest,getingAllRequest,requests}) => {
+const Requests = ({getingMyRequest,getingAllRequest,requests,addingToUserHandler}) => {
     return (
         <>
             <Box className="buttons">
@@ -13,7 +13,7 @@ const Requests = ({getingMyRequest,getingAllRequest,requests}) => {
                 requests === null
                 ? null
                 : requests.length > 0
-                    ? <EnhancedTable rows={requests}/>
+                    ? <RequestsTable rows={requests} addingToUserHandler={addingToUserHandler}/>
                     : <p>Заявок на данный момент нет</p>
             }
         </>

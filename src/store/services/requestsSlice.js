@@ -25,12 +25,27 @@ export const createRequest = createAsyncThunk(
     }
 )
 
+export const addRequestToUser = createAsyncThunk(
+    'requests/addRequestToUser',
+    async (payload, thunkApi) => {
+        let body = new FormData();
+        body.append('Id',payload.userData.Id);
+        body.append('UserId',payload.userData.UserId);
+        try {
+            const response = await axios.post('http://localhost:5136/Request/AddRequestToUser', body);
+            return response.data;
+        } catch (e) {
+            payload.navigate('/status/' + e.message);
+            return null;
+        }
+    }
+)
+
 export const getMyRequests = createAsyncThunk(
     'requests/getMy',
     async (payload, thunkApi) => {
         try {
-            const response = await axios.get(`http://localhost:5136/Request/GetRequest?Id=${payload.id}`);
-            console.log(response);
+            const response = await axios.get(`http://localhost:5136/Request/GetMyRequests?userId=${payload.id}`);
             return response.data;
         } catch (e) {
             payload.navigate('/status/' + e.message);

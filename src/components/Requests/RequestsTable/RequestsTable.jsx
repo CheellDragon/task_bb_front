@@ -86,7 +86,7 @@ const headCells = [
     label: 'Тип',
   },
   {
-    id: 'UserId',
+    id: 'userId',
     numeric: true,
     disablePadding: false,
     label: 'Id пользователя',
@@ -154,7 +154,7 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
-  const { numSelected } = props;
+  const { numSelected,addingToUserHandler,selected } = props;
 
   return (
     <Toolbar
@@ -190,7 +190,7 @@ function EnhancedTableToolbar(props) {
       {numSelected > 0 ? (
         <>
           <Button sx={{mr: 2}} color={'success'} variant="contained">Удалить Заявки</Button>
-          <Button color={'success'} variant="contained">Добавить себе</Button>
+          <Button onClick={()=>{addingToUserHandler(selected)}} color={'success'} variant="contained">Добавить себе</Button>
         </>
       ) : (
         <Tooltip title="Filter list">
@@ -207,11 +207,10 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable({rows}) {
+export default function RequestsTable({rows,addingToUserHandler}) {
   const [order, setOrder] = React.useState(DEFAULT_ORDER);
   const [orderBy, setOrderBy] = React.useState(DEFAULT_ORDER_BY);
   const [selected, setSelected] = React.useState([]);
-  console.log(selected);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [visibleRows, setVisibleRows] = React.useState(null);
@@ -331,7 +330,7 @@ export default function EnhancedTable({rows}) {
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar numSelected={selected.length} addingToUserHandler={addingToUserHandler} selected={selected}/>
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -384,7 +383,7 @@ export default function EnhancedTable({rows}) {
                         <TableCell align="right">{row.fio}</TableCell>
                         <TableCell align="right">{row.email}</TableCell>
                         <TableCell align="right">{row.type}</TableCell>
-                        <TableCell align="right">{row.UserId ? row.UserId : <p>пусто</p>}</TableCell>
+                        <TableCell align="right">{row.userId ? row.userId : <p>пусто</p>}</TableCell>
                       </TableRow>
                     );
                   })
