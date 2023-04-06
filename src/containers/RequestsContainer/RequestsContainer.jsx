@@ -16,7 +16,7 @@ const RequestsContainer = () => {
             id = parseInt(id);
             dispatch(addRequestToUser({
                 userData: {
-                    id,
+                    Id: id,
                     UserId: user.id
                 },
                 navigate
