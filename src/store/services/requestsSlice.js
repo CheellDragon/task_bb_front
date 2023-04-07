@@ -41,6 +41,55 @@ export const addRequestToUser = createAsyncThunk(
     }
 )
 
+export const removeRequestFromUser = createAsyncThunk(
+    'requests/removeRequestFromUser',
+    async (payload, thunkApi) => {
+        let body = new FormData();
+        body.append('Id',payload.Id);
+        body.append('UserId',payload.UserId);
+        console.log(payload.Id,payload.UserId);
+        try {
+            const response = await axios.post('http://localhost:5136/Request/RemoveRequestFromUser', body);
+            return response.data;
+        } catch (e) {
+            payload.navigate('/status/' + e.message);
+            return null;
+        }
+    }
+)
+
+export const cancelRequest = createAsyncThunk(
+    'requests/cancelRequest',
+    async (payload, thunkApi) => {
+        let body = new FormData();
+        body.append('Id',payload.Id);
+        try {
+            const response = await axios.post('http://localhost:5136/Request/CancelRequest', body);
+            return response.data;
+        } catch (e) {
+            payload.navigate('/status/' + e.message);
+            return null;
+        }
+    }
+)
+
+
+export const closeRequest = createAsyncThunk(
+    'requests/closeRequest',
+    async (payload, thunkApi) => {
+        let body = new FormData();
+        body.append('Id',payload.Id);
+        try {
+            const response = await axios.post('http://localhost:5136/Request/CloseRequest', body);
+            return response.data;
+        } catch (e) {
+            payload.navigate('/status/' + e.message);
+            return null;
+        }
+    }
+)
+
+
 export const getMyRequests = createAsyncThunk(
     'requests/getMy',
     async (payload, thunkApi) => {

@@ -154,7 +154,7 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
-  const { numSelected,addingToUserHandler,selected } = props;
+  const { numSelected, addingToUserHandler, selected, cancellingRequestsHandler, removingFromUserHandler, closingRequestsHandler,rows} = props;
 
   return (
     <Toolbar
@@ -189,8 +189,10 @@ function EnhancedTableToolbar(props) {
 
       {numSelected > 0 ? (
         <>
-          <Button sx={{mr: 2}} color={'success'} variant="contained">Удалить Заявки</Button>
-          <Button onClick={()=>{addingToUserHandler(selected)}} color={'success'} variant="contained">Добавить себе</Button>
+          <Button onClick={()=>{removingFromUserHandler(selected,rows)}} sx={{mr: 2}} color={'success'} variant="contained">Удалить Пользователя</Button>
+          <Button onClick={()=>{addingToUserHandler(selected)}} sx={{mr: 2}} color={'success'} variant="contained">Добавить себе</Button>
+          <Button onClick={()=>{closingRequestsHandler(selected)}} sx={{mr: 2}} color={'success'} variant="contained">Закрыть заявки</Button>
+          <Button onClick={()=>{cancellingRequestsHandler(selected)}} color={'success'} variant="contained">Отменить заявки</Button>
         </>
       ) : (
         <Tooltip title="Filter list">
@@ -207,7 +209,7 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function RequestsTable({rows,addingToUserHandler}) {
+export default function RequestsTable({rows,addingToUserHandler, cancellingRequestsHandler, removingFromUserHandler, closingRequestsHandler}) {
   const [order, setOrder] = React.useState(DEFAULT_ORDER);
   const [orderBy, setOrderBy] = React.useState(DEFAULT_ORDER_BY);
   const [selected, setSelected] = React.useState([]);
@@ -229,7 +231,7 @@ export default function RequestsTable({rows,addingToUserHandler}) {
     );
 
     setVisibleRows(rowsOnMount);
-  }, []);
+  }, [rows]);
 
   const handleRequestSort = React.useCallback(
     (event, newOrderBy) => {
@@ -246,7 +248,7 @@ export default function RequestsTable({rows,addingToUserHandler}) {
 
       setVisibleRows(updatedRows);
     },
-    [order, orderBy, page, rowsPerPage],
+    [order, orderBy, page, rowsPerPage,rows],
   );
 
   const handleSelectAllClick = (event) => {
@@ -297,7 +299,7 @@ export default function RequestsTable({rows,addingToUserHandler}) {
       const newPaddingHeight = (dense ? 33 : 53) * numEmptyRows;
       setPaddingHeight(newPaddingHeight);
     },
-    [order, orderBy, dense, rowsPerPage],
+    [order, orderBy, dense, rowsPerPage,rows],
   );
 
   const handleChangeRowsPerPage = React.useCallback(
@@ -318,7 +320,7 @@ export default function RequestsTable({rows,addingToUserHandler}) {
       // There is no layout jump to handle on the first page.
       setPaddingHeight(0);
     },
-    [order, orderBy],
+    [order, orderBy,rows],
   );
 
   const handleChangeDense = (event) => {
@@ -330,7 +332,15 @@ export default function RequestsTable({rows,addingToUserHandler}) {
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} addingToUserHandler={addingToUserHandler} selected={selected}/>
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          addingToUserHandler={addingToUserHandler}
+          selected={selected}
+          cancellingRequestsHandler={cancellingRequestsHandler}
+          removingFromUserHandler={removingFromUserHandler}
+          closingRequestsHandler={closingRequestsHandler}
+          rows={rows}
+        />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
