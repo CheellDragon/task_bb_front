@@ -86,6 +86,12 @@ const headCells = [
     label: 'Тип',
   },
   {
+    id: 'status',
+    numeric: true,
+    disablePadding: false,
+    label: 'Статус',
+  },
+  {
     id: 'userId',
     numeric: true,
     disablePadding: false,
@@ -218,6 +224,11 @@ export default function RequestsTable({rows,addingToUserHandler, cancellingReque
   const [visibleRows, setVisibleRows] = React.useState(null);
   const [rowsPerPage, setRowsPerPage] = React.useState(DEFAULT_ROWS_PER_PAGE);
   const [paddingHeight, setPaddingHeight] = React.useState(0);
+  const statuses = {
+    0: "Создан",
+    1: "Отменен",
+    2: "Закрыт"
+  }
 
   React.useEffect(() => {
     let rowsOnMount = stableSort(
@@ -393,6 +404,7 @@ export default function RequestsTable({rows,addingToUserHandler, cancellingReque
                         <TableCell align="right">{row.fio}</TableCell>
                         <TableCell align="right">{row.email}</TableCell>
                         <TableCell align="right">{row.type}</TableCell>
+                        <TableCell align="right">{statuses[row.status]}</TableCell>
                         <TableCell align="right">{row.userId ? row.userId : <p>пусто</p>}</TableCell>
                       </TableRow>
                     );
