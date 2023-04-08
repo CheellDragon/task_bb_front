@@ -2,7 +2,7 @@ import { Button,Box } from "@mui/material";
 import RequestsTable from "./RequestsTable/RequestsTable";
 import './Requests.css';
 
-const Requests = ({getingMyRequest,getingAllRequest,requests,addingToUserHandler, cancellingRequestsHandler, removingFromUserHandler, closingRequestsHandler}) => {
+const Requests = ({getingMyRequest,getingAllRequest,requests,addingToUserHandler, cancellingRequestsHandler, removingFromUserHandler, closingRequestsHandler,removingRequest}) => {
     return (
         <>
             <Box className="buttons">
@@ -19,6 +19,7 @@ const Requests = ({getingMyRequest,getingAllRequest,requests,addingToUserHandler
                         cancellingRequestsHandler={cancellingRequestsHandler}
                         removingFromUserHandler={removingFromUserHandler}
                         closingRequestsHandler={closingRequestsHandler}
+                        removingRequest={removingRequest}
                     />
                     : <p>Заявок на данный момент нет</p>
             }

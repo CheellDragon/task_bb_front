@@ -99,13 +99,12 @@ const headCells = [
   },
 ];
 
-const DEFAULT_ORDER = 'asc';
-const DEFAULT_ORDER_BY = 'calories';
+const DEFAULT_ORDER = 'desc';
+const DEFAULT_ORDER_BY = 'id';
 const DEFAULT_ROWS_PER_PAGE = 5;
 
 function EnhancedTableHead(props) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
-    props;
+  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
   const createSortHandler = (newOrderBy) => (event) => {
     onRequestSort(event, newOrderBy);
   };
@@ -160,7 +159,7 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
-  const { numSelected, addingToUserHandler, selected, cancellingRequestsHandler, removingFromUserHandler, closingRequestsHandler,rows} = props;
+  const { numSelected, addingToUserHandler, selected, cancellingRequestsHandler, removingFromUserHandler, closingRequestsHandler,rows,removingRequest} = props;
 
   return (
     <Toolbar
@@ -189,7 +188,7 @@ function EnhancedTableToolbar(props) {
           id="tableTitle"
           component="div"
         >
-          Список запросов
+          Список запросов | Выберите запросы для изменений
         </Typography>
       )}
 
@@ -198,7 +197,8 @@ function EnhancedTableToolbar(props) {
           <Button onClick={()=>{removingFromUserHandler(selected,rows)}} sx={{mr: 2}} color={'success'} variant="contained">Удалить Пользователя</Button>
           <Button onClick={()=>{addingToUserHandler(selected)}} sx={{mr: 2}} color={'success'} variant="contained">Добавить себе</Button>
           <Button onClick={()=>{closingRequestsHandler(selected)}} sx={{mr: 2}} color={'success'} variant="contained">Закрыть заявки</Button>
-          <Button onClick={()=>{cancellingRequestsHandler(selected)}} color={'success'} variant="contained">Отменить заявки</Button>
+          <Button onClick={()=>{cancellingRequestsHandler(selected)}} sx={{mr: 2}} color={'success'} variant="contained">Отменить заявки</Button>
+          <Button onClick={()=>{removingRequest(selected)}} color={'success'} variant="contained">Удалить заявки</Button>
         </>
       ) : (
         <Tooltip title="Filter list">
@@ -215,7 +215,7 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function RequestsTable({rows,addingToUserHandler, cancellingRequestsHandler, removingFromUserHandler, closingRequestsHandler}) {
+export default function RequestsTable({rows,addingToUserHandler, cancellingRequestsHandler, removingFromUserHandler, closingRequestsHandler, removingRequest}) {
   const [order, setOrder] = React.useState(DEFAULT_ORDER);
   const [orderBy, setOrderBy] = React.useState(DEFAULT_ORDER_BY);
   const [selected, setSelected] = React.useState([]);
@@ -351,6 +351,7 @@ export default function RequestsTable({rows,addingToUserHandler, cancellingReque
           removingFromUserHandler={removingFromUserHandler}
           closingRequestsHandler={closingRequestsHandler}
           rows={rows}
+          removingRequest={removingRequest}
         />
         <TableContainer>
           <Table

@@ -47,9 +47,23 @@ export const removeRequestFromUser = createAsyncThunk(
         let body = new FormData();
         body.append('Id',payload.Id);
         body.append('UserId',payload.UserId);
-        console.log(payload.Id,payload.UserId);
         try {
             const response = await axios.post('http://localhost:5136/Request/RemoveRequestFromUser', body);
+            return response.data;
+        } catch (e) {
+            payload.navigate('/status/' + e.message);
+            return null;
+        }
+    }
+)
+
+export const removeRequest = createAsyncThunk(
+    'requests/removeRequest',
+    async (payload, thunkApi) => {
+        let body = new FormData();
+        body.append('Id',payload.Id);
+        try {
+            const response = await axios.post('http://localhost:5136/Request/RemoveRequest', body);
             return response.data;
         } catch (e) {
             payload.navigate('/status/' + e.message);
