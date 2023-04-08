@@ -7,6 +7,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import { Box } from "@mui/material";
+import UserMenu from "./UserMenu/UserMenu";
 
 const Header = ({isAuthorized, signNav, registerNav, openSideBar, isSideBarOpen, currentPage, user, logoutU}) => {
     if(currentPage === '/register') {
@@ -41,8 +42,7 @@ const Header = ({isAuthorized, signNav, registerNav, openSideBar, isSideBarOpen,
                 {
                     !!user ?
                     <Box sx={{ display: "flex", alignItems: "center" }}>
-                        <Typography sx={{ maxWidth: "50px", overflow: "hidden", mr: 0.5 }}>{`${user.fio}`}</Typography>
-                        <Typography className="authorizationButton" sx={{ maxWidth: "60px", padding: "3px" ,border: "1px solid white" }} onClick={logoutU}>Выйти</Typography>
+                        <UserMenu userName={`${user.fio}`} logoutU={logoutU}/>
                     </Box>
                     
                     : currentPage
