@@ -159,51 +159,21 @@ const requestsSlice = createSlice({
                 state.fetching = false
                 state.requests = action.payload
             })
-            .addCase(closeRequest.pending, (state) => {
-                state.fetching = true
-            })
-            .addCase(closeRequest.rejected, (state) => {
-                state.fetching = false
-            })
-            .addCase(closeRequest.fulfilled, (state) => {
-                state.fetching = false
-            })
-            .addCase(cancelRequest.pending, (state) => {
-                state.fetching = true
-            })
-            .addCase(cancelRequest.rejected, (state) => {
-                state.fetching = false
-            })
-            .addCase(cancelRequest.fulfilled, (state) => {
-                state.fetching = false
-            })
-            .addCase(removeRequest.pending, (state) => {
-                state.fetching = true
-            })
-            .addCase(removeRequest.rejected, (state) => {
-                state.fetching = false
-            })
-            .addCase(removeRequest.fulfilled, (state) => {
-                state.fetching = false
-            })
-            .addCase(removeRequestFromUser.pending, (state) => {
-                state.fetching = true
-            })
-            .addCase(removeRequestFromUser.rejected, (state) => {
-                state.fetching = false
-            })
-            .addCase(removeRequestFromUser.fulfilled, (state) => {
-                state.fetching = false
-            })
-            .addCase(addRequestToUser.pending, (state) => {
-                state.fetching = true
-            })
-            .addCase(addRequestToUser.rejected, (state) => {
-                state.fetching = false
-            })
-            .addCase(addRequestToUser.fulfilled, (state) => {
-                state.fetching = false
-            })
+            .addCase(closeRequest.pending, (state) => {state.fetching = true})
+            .addCase(closeRequest.rejected, (state) => {state.fetching = false})
+            .addCase(closeRequest.fulfilled, (state) => {state.fetching = false})
+            .addCase(cancelRequest.pending, (state) => {state.fetching = true})
+            .addCase(cancelRequest.rejected, (state) => {state.fetching = false})
+            .addCase(cancelRequest.fulfilled, (state) => {state.fetching = false})
+            .addCase(removeRequest.pending, (state) => {state.fetching = true})
+            .addCase(removeRequest.rejected, (state) => {state.fetching = false})
+            .addCase(removeRequest.fulfilled, (state) => {state.fetching = false})
+            .addCase(removeRequestFromUser.pending, (state) => {state.fetching = true})
+            .addCase(removeRequestFromUser.rejected, (state) => {state.fetching = false})
+            .addCase(removeRequestFromUser.fulfilled, (state) => {state.fetching = false})
+            .addCase(addRequestToUser.pending, (state) => {state.fetching = true})
+            .addCase(addRequestToUser.rejected, (state) => {state.fetching = false})
+            .addCase(addRequestToUser.fulfilled, (state) => {state.fetching = false})
     }
 });
 export default requestsSlice.reducer;
