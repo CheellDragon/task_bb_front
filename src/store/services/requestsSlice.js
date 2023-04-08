@@ -3,7 +3,7 @@ import axios from "../../axios/api";
 
 const initialState = {
     requests: null,
-    modalShow: false,
+    fetching: false,
 };
 
 export const createRequest = createAsyncThunk(
@@ -138,28 +138,72 @@ const requestsSlice = createSlice({
     extraReducers:  builder => {
         builder
             .addCase(getMyRequests.pending, (state) => {
-                state.modalShow = true
+                state.fetching = true
             })
             .addCase(getMyRequests.rejected, (state) => {
-                state.modalShow = false
+                state.fetching = false
                 state.requests = null
             })
             .addCase(getMyRequests.fulfilled, (state, action) => {
-                state.modalShow = false
+                state.fetching = false
                 state.requests = action.payload
             })
             .addCase(getAllRequests.pending, (state) => {
-                state.modalShow = true
+                state.fetching = true
             })
             .addCase(getAllRequests.rejected, (state) => {
-                state.modalShow = false
+                state.fetching = false
                 state.requests = null
             })
             .addCase(getAllRequests.fulfilled, (state, action) => {
-                state.modalShow = false
+                state.fetching = false
                 state.requests = action.payload
+            })
+            .addCase(closeRequest.pending, (state) => {
+                state.fetching = true
+            })
+            .addCase(closeRequest.rejected, (state) => {
+                state.fetching = false
+            })
+            .addCase(closeRequest.fulfilled, (state) => {
+                state.fetching = false
+            })
+            .addCase(cancelRequest.pending, (state) => {
+                state.fetching = true
+            })
+            .addCase(cancelRequest.rejected, (state) => {
+                state.fetching = false
+            })
+            .addCase(cancelRequest.fulfilled, (state) => {
+                state.fetching = false
+            })
+            .addCase(removeRequest.pending, (state) => {
+                state.fetching = true
+            })
+            .addCase(removeRequest.rejected, (state) => {
+                state.fetching = false
+            })
+            .addCase(removeRequest.fulfilled, (state) => {
+                state.fetching = false
+            })
+            .addCase(removeRequestFromUser.pending, (state) => {
+                state.fetching = true
+            })
+            .addCase(removeRequestFromUser.rejected, (state) => {
+                state.fetching = false
+            })
+            .addCase(removeRequestFromUser.fulfilled, (state) => {
+                state.fetching = false
+            })
+            .addCase(addRequestToUser.pending, (state) => {
+                state.fetching = true
+            })
+            .addCase(addRequestToUser.rejected, (state) => {
+                state.fetching = false
+            })
+            .addCase(addRequestToUser.fulfilled, (state) => {
+                state.fetching = false
             })
     }
 });
-export const {modalShow, modalClose} = requestsSlice.actions;
 export default requestsSlice.reducer;

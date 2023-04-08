@@ -1,8 +1,9 @@
 import { Button,Box } from "@mui/material";
 import RequestsTable from "./RequestsTable/RequestsTable";
 import './Requests.css';
+import Spinner from "../Spinner/Spinner";
 
-const Requests = ({getingMyRequest,getingAllRequest,requests,addingToUserHandler, cancellingRequestsHandler, removingFromUserHandler, closingRequestsHandler,removingRequest}) => {
+const Requests = ({getingMyRequest,getingAllRequest,requests,addingToUserHandler, cancellingRequestsHandler, removingFromUserHandler, closingRequestsHandler,removingRequest, fetching}) => {
     return (
         <>
             <Box className="buttons">
@@ -10,18 +11,20 @@ const Requests = ({getingMyRequest,getingAllRequest,requests,addingToUserHandler
                 <Button onClick={getingAllRequest} color="success" variant="contained">Получить Все Заявки</Button>
             </Box>
             {
-                requests === null
-                ? null
-                : requests.length > 0
-                    ? <RequestsTable 
-                        rows={requests}
-                        addingToUserHandler={addingToUserHandler}
-                        cancellingRequestsHandler={cancellingRequestsHandler}
-                        removingFromUserHandler={removingFromUserHandler}
-                        closingRequestsHandler={closingRequestsHandler}
-                        removingRequest={removingRequest}
-                    />
-                    : <p>Заявок на данный момент нет</p>
+                fetching 
+                    ? <Spinner/>
+                    : requests === null
+                        ? null
+                            : requests.length > 0
+                            ? <RequestsTable 
+                                rows={requests}
+                                addingToUserHandler={addingToUserHandler}
+                                cancellingRequestsHandler={cancellingRequestsHandler}
+                                removingFromUserHandler={removingFromUserHandler}
+                                closingRequestsHandler={closingRequestsHandler}
+                                removingRequest={removingRequest}
+                            />
+                            : <p>Заявок на данный момент нет</p>
             }
         </>
     )

@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 const RequestsContainer = () => {
   const { user } = useSelector((state) => state.users);
-  const requests = useSelector((state) => state.requests.requests);
+  const { requests, fetching } = useSelector((state) => state.requests);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -116,6 +116,7 @@ const RequestsContainer = () => {
       removingFromUserHandler={removingFromUserHandler}
       closingRequestsHandler={closingRequestsHandler}
       removingRequest={removingRequest}
+      fetching={fetching}
     />
   );
 };
