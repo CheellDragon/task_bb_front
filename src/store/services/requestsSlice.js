@@ -128,7 +128,8 @@ export const getAllRequests = createAsyncThunk(
             return null;
         }
     }
-)
+);
+
 
 const requestsSlice = createSlice({
     name: 'requests',

@@ -13,41 +13,45 @@ const RequestsContainer = () => {
   const getMyRequest = useCallback(() => {
     dispatch(getMyRequests({
         id: user.id,
+        token: user.token,
         navigate
     }));
-  }, [dispatch, user.id, navigate]);
+  }, [dispatch, user.id, user.token, navigate]);
 
   const getAllRequest = useCallback(() => {
     dispatch(getAllRequests({
+        token: user.token,
         navigate
     }));
-  }, [dispatch, navigate]);
+  }, [dispatch, navigate, user.token]);
 
   const cancellingRequestsHandler = useCallback(async (selected) => {
     if(selected.length > 0) {
       await Promise.all(selected.map(async id => {
         id = parseInt(id);
         await dispatch(closeRequest({
+          token: user.token,
           Id: id,
           navigate
         }))
       }));
     }
     getAllRequest();
-  }, [dispatch, navigate, getAllRequest]);  
+  }, [getAllRequest, dispatch, user.token, navigate]);  
 
   const closingRequestsHandler = useCallback(async (selected) => {
     if(selected.length > 0) {
       await Promise.all(selected.map(async id => {
         id = parseInt(id);
         await dispatch(cancelRequest({
+          token: user.token,
           Id: id,
           navigate
         }))
       }));
     }
     getAllRequest();
-  }, [dispatch, navigate, getAllRequest]);  
+  }, [getAllRequest, dispatch, user.token, navigate]);  
 
   const removingFromUserHandler = useCallback(async (selected,rows) => {
     if(selected.length > 0) {
@@ -58,6 +62,7 @@ const RequestsContainer = () => {
           }))[0].userId
         if(typeof UserId === "number") {
           await dispatch(removeRequestFromUser({
+            token: user.token,
             Id,
             UserId,
             navigate
@@ -66,7 +71,7 @@ const RequestsContainer = () => {
       }));
     }
     getAllRequest();
-  }, [dispatch, navigate, getAllRequest]);
+  }, [getAllRequest, dispatch, user.token, navigate]);
   
 
   const addingToUserHandler = useCallback(async (selected) => {
@@ -74,6 +79,7 @@ const RequestsContainer = () => {
       await Promise.all(selected.map(async id => {
         id = parseInt(id);
         await dispatch(addRequestToUser({
+          token: user.token,
           userData: {
             Id: id,
             UserId: user.id
@@ -83,7 +89,7 @@ const RequestsContainer = () => {
       }));
     }
     getAllRequest();
-  }, [dispatch, user.id, navigate, getAllRequest]);
+  }, [getAllRequest, dispatch, user.token, user.id, navigate]);
   
 
   const removingRequest = useCallback(async (selected) => {
@@ -91,13 +97,14 @@ const RequestsContainer = () => {
       await Promise.all(selected.map(async id => {
         id = parseInt(id);
         await dispatch(removeRequest({
+          token: user.token,
           Id: id,
           navigate
         }));
       }));
     }
     getAllRequest();
-  }, [dispatch, navigate, getAllRequest]);
+  }, [getAllRequest, dispatch, user.token, navigate]);
 
   const [requestsKey, setRequestsKey] = useState(0);
 
