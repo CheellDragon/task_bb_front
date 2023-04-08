@@ -38,6 +38,7 @@ export default function UserMenu({userName,logoutU}) {
         MenuListProps={{
           'aria-labelledby': 'basic-button',
         }}
+        sx={{ mt: 1 }}
       >
         <MenuItem onClick={logoutHandleClose}>Выйти</MenuItem>
       </Menu>
