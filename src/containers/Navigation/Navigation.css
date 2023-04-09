@@ -2,6 +2,7 @@
     padding: 10px 20px;
     margin-left: 0;
     transition: margin 600ms;
+    position: relative;
 }
 
 .mr200 {
