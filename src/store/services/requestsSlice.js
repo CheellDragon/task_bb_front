@@ -4,6 +4,7 @@ import axios from "../../axios/api";
 const initialState = {
     requests: null,
     fetching: false,
+    requestsHistory: []
 };
 
 export const createRequest = createAsyncThunk(
@@ -130,6 +131,19 @@ export const getAllRequests = createAsyncThunk(
     }
 );
 
+export const getAllRequestsHistory = createAsyncThunk(
+    'requests/getAllHistory',
+    async (payload, thunkApi) => {
+        try {
+            const response = await axios.get('http://localhost:5136/Request/GetRequestsHistory');
+            return response.data;
+        } catch (e) {
+            payload.navigate('/status/' + e.message);
+            return null;
+        }
+    }
+);
+
 
 const requestsSlice = createSlice({
     name: 'requests',
@@ -159,6 +173,17 @@ const requestsSlice = createSlice({
             .addCase(getAllRequests.fulfilled, (state, action) => {
                 state.fetching = false
                 state.requests = action.payload
+            })
+            .addCase(getAllRequestsHistory.pending, (state) => {
+                state.fetching = true
+            })
+            .addCase(getAllRequestsHistory.rejected, (state) => {
+                state.fetching = false
+                state.requestsHistory = []
+            })
+            .addCase(getAllRequestsHistory.fulfilled, (state, action) => {
+                state.fetching = false
+                state.requestsHistory = action.payload
             })
             .addCase(closeRequest.pending, (state) => {state.fetching = true})
             .addCase(closeRequest.rejected, (state) => {state.fetching = false})
