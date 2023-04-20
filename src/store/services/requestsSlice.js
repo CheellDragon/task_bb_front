@@ -9,7 +9,7 @@ const initialState = {
 
 export const createRequest = createAsyncThunk(
     'requests/create',
-    async (payload, thunkApi) => {
+    async payload => {
         let body = new FormData();
         body.append('fio',payload.userData.fio);
         body.append('phoneNumber',payload.userData.phone);
@@ -28,7 +28,7 @@ export const createRequest = createAsyncThunk(
 
 export const addRequestHistory = createAsyncThunk(
     'requests/addRequestHistory',
-    async (payload, thunkApi) => {
+    async payload => {
         let body = new FormData();
         body.append('requestId',payload.requestId);
         body.append('userId',payload.userId);
@@ -47,7 +47,7 @@ export const addRequestHistory = createAsyncThunk(
 
 export const addRequestToUser = createAsyncThunk(
     'requests/addRequestToUser',
-    async (payload, thunkApi) => {
+    async payload => {
         let body = new FormData();
         body.append('Id',payload.userData.Id);
         body.append('UserId',payload.userData.UserId);
@@ -63,7 +63,7 @@ export const addRequestToUser = createAsyncThunk(
 
 export const removeRequestFromUser = createAsyncThunk(
     'requests/removeRequestFromUser',
-    async (payload, thunkApi) => {
+    async payload => {
         let body = new FormData();
         body.append('Id',payload.Id);
         body.append('UserId',payload.UserId);
@@ -79,7 +79,7 @@ export const removeRequestFromUser = createAsyncThunk(
 
 export const removeRequest = createAsyncThunk(
     'requests/removeRequest',
-    async (payload, thunkApi) => {
+    async payload => {
         let body = new FormData();
         body.append('Id',payload.Id);
         try {
@@ -94,7 +94,7 @@ export const removeRequest = createAsyncThunk(
 
 export const cancelRequest = createAsyncThunk(
     'requests/cancelRequest',
-    async (payload, thunkApi) => {
+    async payload => {
         let body = new FormData();
         body.append('Id',payload.Id);
         try {
@@ -110,7 +110,7 @@ export const cancelRequest = createAsyncThunk(
 
 export const closeRequest = createAsyncThunk(
     'requests/closeRequest',
-    async (payload, thunkApi) => {
+    async payload => {
         let body = new FormData();
         body.append('Id',payload.Id);
         try {
@@ -126,7 +126,7 @@ export const closeRequest = createAsyncThunk(
 
 export const getMyRequests = createAsyncThunk(
     'requests/getMy',
-    async (payload, thunkApi) => {
+    async payload => {
         try {
             const response = await axios.get(`http://localhost:5136/Request/GetMyRequests?userId=${payload.id}`);
             return response.data;
@@ -139,7 +139,7 @@ export const getMyRequests = createAsyncThunk(
 
 export const getAllRequests = createAsyncThunk(
     'requests/getAll',
-    async (payload, thunkApi) => {
+    async payload => {
         try {
             const response = await axios.get('http://localhost:5136/Request/GetAllRequests');
             return response.data;
@@ -152,7 +152,7 @@ export const getAllRequests = createAsyncThunk(
 
 export const getAllRequestsHistory = createAsyncThunk(
     'requests/getAllHistory',
-    async (payload, thunkApi) => {
+    async payload => {
         try {
             const response = await axios.get('http://localhost:5136/Request/GetRequestsHistory');
             return response.data.result;
