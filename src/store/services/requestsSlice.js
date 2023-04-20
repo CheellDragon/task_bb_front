@@ -155,7 +155,7 @@ export const getAllRequestsHistory = createAsyncThunk(
     async (payload, thunkApi) => {
         try {
             const response = await axios.get('http://localhost:5136/Request/GetRequestsHistory');
-            return response.data;
+            return response.data.result;
         } catch (e) {
             payload.navigate('/status/' + e.message);
             return null;

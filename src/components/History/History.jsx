@@ -14,10 +14,6 @@ const History = ({data}) => {
     2: "Закрыт",
     3: "Отменен"
   }
-  data.map((row) => {
-    console.log(row);
-    return null;
-  });
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -162,16 +161,7 @@ function EnhancedTableToolbar(props) {
   const { numSelected, addingToUserHandler, selected, cancellingRequestsHandler, removingFromUserHandler, closingRequestsHandler,rows,removingRequest} = props;
 
   return (
-    <Toolbar
-      sx={{
-        pl: { sm: 2 },
-        pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
-          bgcolor: (theme) =>
-            alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-        }),
-      }}
-    >
+    <Toolbar>
       {numSelected > 0 ? (
         <Typography
           sx={{ flex: '1 1 100%' }}
@@ -194,11 +184,11 @@ function EnhancedTableToolbar(props) {
 
       {numSelected > 0 ? (
         <>
-          <Button onClick={()=>{removingFromUserHandler(selected,rows)}} sx={{mr: 2}} color={'success'} variant="contained">Удалить Пользователя</Button>
-          <Button onClick={()=>{addingToUserHandler(selected,rows)}} sx={{mr: 2}} color={'success'} variant="contained">Добавить себе</Button>
-          <Button onClick={()=>{closingRequestsHandler(selected,rows)}} sx={{mr: 2}} color={'success'} variant="contained">Закрыть заявки</Button>
-          <Button onClick={()=>{cancellingRequestsHandler(selected,rows)}} sx={{mr: 2}} color={'success'} variant="contained">Отменить заявки</Button>
-          <Button onClick={()=>{removingRequest(selected,rows)}} color={'success'} variant="contained">Удалить заявки</Button>
+          <Button onClick={()=>{removingFromUserHandler(selected,rows)}} sx={{mr: 2, fontSize: "14px", height: "100%", padding: 2}} color={'success'} variant="contained">Удалить привязку</Button>
+          <Button onClick={()=>{addingToUserHandler(selected,rows)}} sx={{mr: 2, fontSize: "14px", height: "100%", padding: 2}} color={'success'} variant="contained">Добавить себе</Button>
+          <Button onClick={()=>{closingRequestsHandler(selected,rows)}} sx={{mr: 2, fontSize: "14px", height: "100%", padding: 2}} color={'success'} variant="contained">Закрыть заявки</Button>
+          <Button onClick={()=>{cancellingRequestsHandler(selected,rows)}} sx={{mr: 2, fontSize: "14px", height: "100%", padding: 2}} color={'success'} variant="contained">Отменить заявки</Button>
+          <Button onClick={()=>{removingRequest(selected,rows)}} sx={{fontSize: "14px", height: "100%", padding: 2}} color={'success'} variant="contained">Удалить заявки</Button>
         </>
       ) : (
         <Tooltip title="Filter list">
