@@ -1,27 +1,30 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "../../axios/api";
+import { successToast, errorToast } from "../../components/Ding/Ding";
 
 const initialState = {
     requests: null,
     fetching: false,
     requestsHistory: []
-};
+}
 
 export const createRequest = createAsyncThunk(
     'requests/create',
     async payload => {
-        let body = new FormData();
-        body.append('fio',payload.userData.fio);
-        body.append('phoneNumber',payload.userData.phone);
-        body.append('email',payload.userData.email);
-        body.append('type',payload.userData.type);
+        let body = new FormData()
+        body.append('fio',payload.userData.fio)
+        body.append('phoneNumber',payload.userData.phone)
+        body.append('email',payload.userData.email)
+        body.append('type',payload.userData.type)
         try {
-            await axios.post('http://localhost:5136/Request/AddRequest', body);
-            payload.navigate('/status/Заявка успешно создана');
-            return null;
+            await axios.post('http://localhost:5136/Request/AddRequest', body)
+            successToast("Заявка успешно создана")
+            payload.navigate('/requests')
+            return null
         } catch (e) {
-            payload.navigate('/status/' + e.message);
-            return null;
+            errorToast('/status/' + e.message)
+            payload.navigate('/create')
+            return null
         }
     }
 )
@@ -29,18 +32,19 @@ export const createRequest = createAsyncThunk(
 export const addRequestHistory = createAsyncThunk(
     'requests/addRequestHistory',
     async payload => {
-        let body = new FormData();
-        body.append('requestId',payload.requestId);
-        body.append('userId',payload.userId);
-        body.append('actionColumn',payload.actionColumn);
-        body.append('prevData',payload.prevData);
-        body.append('newData',payload.newData);
+        let body = new FormData()
+        body.append('requestId',payload.requestId)
+        body.append('userId',payload.userId)
+        body.append('actionColumn',payload.actionColumn)
+        body.append('prevData',payload.prevData)
+        body.append('newData',payload.newData)
         try {
-            const response = await axios.post('http://localhost:5136/Request/AddRequestHistory', body);
-            return response.data;
+            const response = await axios.post('http://localhost:5136/Request/AddRequestHistory', body)
+            return response.data
         } catch (e) {
-            payload.navigate('/status/' + e.message);
-            return null;
+            payload.navigate('/status/' + e.message)
+            errorToast(e)
+            return null
         }
     }
 )
@@ -48,15 +52,17 @@ export const addRequestHistory = createAsyncThunk(
 export const addRequestToUser = createAsyncThunk(
     'requests/addRequestToUser',
     async payload => {
-        let body = new FormData();
-        body.append('Id',payload.userData.Id);
-        body.append('UserId',payload.userData.UserId);
+        let body = new FormData()
+        body.append('Id',payload.userData.Id)
+        body.append('UserId',payload.userData.UserId)
         try {
-            const response = await axios.post('http://localhost:5136/Request/AddRequestToUser', body);
-            return response.data;
+            const response = await axios.post('http://localhost:5136/Request/AddRequestToUser', body)
+            successToast("Привязка прошла успешно")
+            return response.data
         } catch (e) {
-            payload.navigate('/status/' + e.message);
-            return null;
+            payload.navigate('/status/' + e.message)
+            errorToast(e)
+            return null
         }
     }
 )
@@ -64,15 +70,17 @@ export const addRequestToUser = createAsyncThunk(
 export const removeRequestFromUser = createAsyncThunk(
     'requests/removeRequestFromUser',
     async payload => {
-        let body = new FormData();
-        body.append('Id',payload.Id);
-        body.append('UserId',payload.UserId);
+        let body = new FormData()
+        body.append('Id',payload.Id)
+        body.append('UserId',payload.UserId)
         try {
-            const response = await axios.post('http://localhost:5136/Request/RemoveRequestFromUser', body);
-            return response.data;
+            const response = await axios.post('http://localhost:5136/Request/RemoveRequestFromUser', body)
+            successToast("Отвязка прошла успешно")
+            return response.data
         } catch (e) {
-            payload.navigate('/status/' + e.message);
-            return null;
+            payload.navigate('/status/' + e.message)
+            errorToast(e)
+            return null
         }
     }
 )
@@ -84,9 +92,11 @@ export const removeRequest = createAsyncThunk(
         body.append('Id',payload.Id);
         try {
             const response = await axios.post('http://localhost:5136/Request/RemoveRequest', body);
+            successToast("Заявка успешна удалена")
             return response.data;
         } catch (e) {
             payload.navigate('/status/' + e.message);
+            errorToast(e)
             return null;
         }
     }
@@ -95,13 +105,15 @@ export const removeRequest = createAsyncThunk(
 export const cancelRequest = createAsyncThunk(
     'requests/cancelRequest',
     async payload => {
-        let body = new FormData();
-        body.append('Id',payload.Id);
+        let body = new FormData()
+        body.append('Id',payload.Id)
         try {
-            const response = await axios.post('http://localhost:5136/Request/CancelRequest', body);
-            return response.data;
+            const response = await axios.post('http://localhost:5136/Request/CancelRequest', body)
+            successToast("Заявка успешна отменена")
+            return response.data
         } catch (e) {
-            payload.navigate('/status/' + e.message);
+            payload.navigate('/status/' + e.message)
+            errorToast(e)
             return null;
         }
     }
@@ -115,9 +127,11 @@ export const closeRequest = createAsyncThunk(
         body.append('Id',payload.Id);
         try {
             const response = await axios.post('http://localhost:5136/Request/CloseRequest', body);
+            successToast("Заявка успешна закрыта")
             return response.data;
         } catch (e) {
-            payload.navigate('/status/' + e.message);
+            payload.navigate('/status/' + e.message)
+            errorToast(e)
             return null;
         }
     }
@@ -128,11 +142,12 @@ export const getMyRequests = createAsyncThunk(
     'requests/getMy',
     async payload => {
         try {
-            const response = await axios.get(`http://localhost:5136/Request/GetMyRequests?userId=${payload.id}`);
-            return response.data;
+            const response = await axios.get(`http://localhost:5136/Request/GetMyRequests?userId=${payload.id}`)
+            return response.data
         } catch (e) {
-            payload.navigate('/status/' + e.message);
-            return null;
+            payload.navigate('/status/' + e.message)
+            errorToast(e)
+            return null
         }
     }
 )
@@ -141,11 +156,12 @@ export const getAllRequests = createAsyncThunk(
     'requests/getAll',
     async payload => {
         try {
-            const response = await axios.get('http://localhost:5136/Request/GetAllRequests');
-            return response.data;
+            const response = await axios.get('http://localhost:5136/Request/GetAllRequests')
+            return response.data
         } catch (e) {
-            payload.navigate('/status/' + e.message);
-            return null;
+            payload.navigate('/status/' + e.message)
+            errorToast(e)
+            return null
         }
     }
 );
@@ -154,11 +170,12 @@ export const getAllRequestsHistory = createAsyncThunk(
     'requests/getAllHistory',
     async payload => {
         try {
-            const response = await axios.get('http://localhost:5136/Request/GetRequestsHistory');
-            return response.data.result;
+            const response = await axios.get('http://localhost:5136/Request/GetRequestsHistory')
+            return response.data.result
         } catch (e) {
-            payload.navigate('/status/' + e.message);
-            return null;
+            payload.navigate('/status/' + e.message)
+            errorToast(e)
+            return null
         }
     }
 );

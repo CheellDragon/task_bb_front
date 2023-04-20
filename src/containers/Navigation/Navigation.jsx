@@ -10,10 +10,11 @@ import { useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logoutUser } from '../../store/services/usersSlice';
 import { useSelector } from 'react-redux';
-
+import Ding from '../../components/Ding/Ding'
 const Navigation = () => {
     // Если Клиент не вошел в аккаунт не показывать функционал
-    const {user} = useSelector(state => state.users);
+    const { user,status } = useSelector(state => state.users);
+    const { reqStatus } = useSelector(state => state.requests);
     const isAuthorized = !!user;
     const [isSideBarOpen,setIsSideBarOpen] = useState(false);
     // Считать где находится пользователь если клиент в регистраций то кнопку Войти и наоборот
@@ -71,7 +72,13 @@ const Navigation = () => {
                 : <SideBar/>
             }
         </nav>
-        
+        {
+            !status 
+            ? <Ding message={status} type="success"/>
+            : !reqStatus
+                ? <Ding message={reqStatus} type="Error"/>
+                : null
+        }
         {
             isSideBarOpen 
             ? <div className='container mr200'><Outlet /></div>

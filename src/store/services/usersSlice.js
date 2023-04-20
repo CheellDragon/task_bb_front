@@ -1,5 +1,6 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "../../axios/api";
+import { successToast, errorToast } from "../../components/Ding/Ding";
 
 const initialState = {
     user: null,
@@ -14,8 +15,7 @@ export const loginUser = createAsyncThunk(
             payload.navigate('/create');
             return res.data;
         } catch (e) {
-            payload.navigate('/status/' + e.message);
-            return null;
+            throw e;
         }
     }
 )
@@ -29,10 +29,10 @@ export const registerUser = createAsyncThunk(
         body.append('password',payload.userData.password);
         try {
             const res = await axios.post("http://localhost:5136/User/RegisterNewUser", body);
-            payload.navigate('/status/Успешная регистрация для пользователя - ' + payload.userData.name + '! Ваш логин: ' + payload.userData.phoneNumber);
+            successToast('/status/Успешная регистрация для пользователя - ' + payload.userData.name + '! Ваш логин: ' + payload.userData.phoneNumber);
+            payload.navigate('/create')
             return res.data;
         } catch (e) {
-            payload.navigate('/status/' + e.message);
             return null;
         }
     }
@@ -58,18 +58,22 @@ const usersSlice = createSlice({
     extraReducers: builder => {
         builder
             .addCase(loginUser.rejected, (state, action) => {
-                state.error = action.payload
+                state.error = action.payload;
             })
             .addCase(loginUser.fulfilled, (state, action) => {
                 if(action.payload !== null) {
                     action.payload.token = "Bearer " + action.payload.token
                     state.user = action.payload
+                    successToast("Вы вошли в аккаунт - " + action.payload.fio)
+                } else {
+                    errorToast("Ошибка")
                 }
             })
             .addCase(logoutUser.fulfilled, (state) => {
-                state.user = null;
+                state.user = null
+                successToast("Вы вышли с аккаунта")
             })
     }
 })
 
-export default usersSlice.reducer;
+export default usersSlice.reducer
