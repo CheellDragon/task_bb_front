@@ -1,8 +1,8 @@
 import Create from '../../components/Create/Create';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createRequest } from '../../store/services/requestsSlice';
+import { createRequest, addRequestHistory } from '../../store/services/requestsSlice';
 
 const CreateContainer = () => {
     const [state,setState] = useState({
@@ -13,12 +13,22 @@ const CreateContainer = () => {
     });
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { user } = useSelector((state) => state.users);
 
     const submitFormHandler = e => {
         e.preventDefault();
         dispatch(createRequest({
             userData: {...state},
             navigate
+        }))
+        dispatch(addRequestHistory({
+          token: user.token,
+          requestId: 0,
+          userId: user.id,
+          actionColumn: "Создание Заявки",
+          prevData: "-",
+          newData: 0,
+          navigate
         }))
     };
     const fioHandler = (e) => {

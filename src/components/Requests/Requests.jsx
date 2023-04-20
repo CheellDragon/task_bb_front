@@ -16,7 +16,7 @@ const Requests = ({getingMyRequest,getingAllRequest,requests,addingToUserHandler
                     : requests === null
                         ? null
                             : requests.length > 0
-                            ? <RequestsTable 
+                            ? <RequestsTable
                                 rows={requests}
                                 addingToUserHandler={addingToUserHandler}
                                 cancellingRequestsHandler={cancellingRequestsHandler}

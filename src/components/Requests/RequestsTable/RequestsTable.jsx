@@ -195,10 +195,10 @@ function EnhancedTableToolbar(props) {
       {numSelected > 0 ? (
         <>
           <Button onClick={()=>{removingFromUserHandler(selected,rows)}} sx={{mr: 2}} color={'success'} variant="contained">Удалить Пользователя</Button>
-          <Button onClick={()=>{addingToUserHandler(selected)}} sx={{mr: 2}} color={'success'} variant="contained">Добавить себе</Button>
-          <Button onClick={()=>{closingRequestsHandler(selected)}} sx={{mr: 2}} color={'success'} variant="contained">Закрыть заявки</Button>
-          <Button onClick={()=>{cancellingRequestsHandler(selected)}} sx={{mr: 2}} color={'success'} variant="contained">Отменить заявки</Button>
-          <Button onClick={()=>{removingRequest(selected)}} color={'success'} variant="contained">Удалить заявки</Button>
+          <Button onClick={()=>{addingToUserHandler(selected,rows)}} sx={{mr: 2}} color={'success'} variant="contained">Добавить себе</Button>
+          <Button onClick={()=>{closingRequestsHandler(selected,rows)}} sx={{mr: 2}} color={'success'} variant="contained">Закрыть заявки</Button>
+          <Button onClick={()=>{cancellingRequestsHandler(selected,rows)}} sx={{mr: 2}} color={'success'} variant="contained">Отменить заявки</Button>
+          <Button onClick={()=>{removingRequest(selected,rows)}} color={'success'} variant="contained">Удалить заявки</Button>
         </>
       ) : (
         <Tooltip title="Filter list">

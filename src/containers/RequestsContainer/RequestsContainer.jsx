@@ -1,6 +1,7 @@
 import { useEffect, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMyRequests, getAllRequests, addRequestToUser, removeRequestFromUser, cancelRequest, closeRequest,removeRequest } from '../../store/services/requestsSlice';
+import { getMyRequests, getAllRequests, addRequestToUser, removeRequestFromUser, cancelRequest, 
+  closeRequest,removeRequest,addRequestHistory } from '../../store/services/requestsSlice';
 import Requests from '../../components/Requests/Requests';
 import { useNavigate } from 'react-router-dom';
 
@@ -25,27 +26,47 @@ const RequestsContainer = () => {
     }));
   }, [dispatch, navigate, user.token]);
 
-  const cancellingRequestsHandler = useCallback(async (selected) => {
+  const cancellingRequestsHandler = useCallback(async (selected,rows) => {
     if(selected.length > 0) {
       await Promise.all(selected.map(async id => {
+        const row = rows.find(row => row.id === id);
         id = parseInt(id);
-        await dispatch(closeRequest({
+        dispatch(closeRequest({
           token: user.token,
           Id: id,
+          navigate
+        }))
+        dispatch(addRequestHistory({
+          token: user.token,
+          requestId: id,
+          userId: user.id,
+          actionColumn: "Статус: Отменена заявки",
+          prevData: row.status,
+          newData: 3,
           navigate
         }))
       }));
     }
     getAllRequest();
-  }, [getAllRequest, dispatch, user.token, navigate]);  
+  }, [getAllRequest, dispatch, user.token, user.id, navigate]);  
 
-  const closingRequestsHandler = useCallback(async (selected) => {
+  const closingRequestsHandler = useCallback(async (selected,rows) => {
     if(selected.length > 0) {
       await Promise.all(selected.map(async id => {
+        const row = rows.find(row => row.id === id);
         id = parseInt(id);
-        await dispatch(cancelRequest({
+        dispatch(cancelRequest({
           token: user.token,
           Id: id,
+          navigate
+        }))
+        dispatch(addRequestHistory({
+          token: user.token,
+          requestId: id,
+          userId: row.userId ? row.userId : "",
+          actionColumn: "Статус: Закрытие заявки",
+          prevData: row.status,
+          newData: 2,
           navigate
         }))
       }));
@@ -55,30 +76,41 @@ const RequestsContainer = () => {
 
   const removingFromUserHandler = useCallback(async (selected,rows) => {
     if(selected.length > 0) {
-      await Promise.all(selected.map(async (Id) => {
+      await Promise.all(selected.map(async (id) => {
+        const row = rows.find(row => row.id === id);
         const UserId =
           rows.filter(((value) => {
-            return value.id === Id
+            return value.id === id
           }))[0].userId
         if(typeof UserId === "number") {
-          await dispatch(removeRequestFromUser({
+          dispatch(removeRequestFromUser({
             token: user.token,
-            Id,
+            Id: id,
             UserId,
+            navigate
+          }))
+          dispatch(addRequestHistory({
+            token: user.token,
+            requestId: id,
+            userId: user.id,
+            actionColumn: "Открепление заявки от пользователя",
+            prevData: row.userId ? row.userId : "",
+            newData: "-",
             navigate
           }))
         }
       }));
     }
     getAllRequest();
-  }, [getAllRequest, dispatch, user.token, navigate]);
+  }, [getAllRequest, dispatch, user.token, user.id, navigate]);
   
 
-  const addingToUserHandler = useCallback(async (selected) => {
+  const addingToUserHandler = useCallback(async (selected,rows) => {
     if(selected.length > 0) {
       await Promise.all(selected.map(async id => {
+        const row = rows.find(row => row.id === id);
         id = parseInt(id);
-        await dispatch(addRequestToUser({
+        dispatch(addRequestToUser({
           token: user.token,
           userData: {
             Id: id,
@@ -86,25 +118,50 @@ const RequestsContainer = () => {
           },
           navigate
         }))
+        dispatch(addRequestHistory({
+          token: user.token,
+          requestId: id,
+          userId: user.id,
+          actionColumn: "Добавление заявки к пользователю",
+          prevData: row.userId ? row.userId : "-",
+          newData: user.id,
+          navigate
+        }))
       }));
     }
     getAllRequest();
-  }, [getAllRequest, dispatch, user.token, user.id, navigate]);
+  }, [user, getAllRequest, dispatch, navigate]);
   
 
-  const removingRequest = useCallback(async (selected) => {
+  const removingRequest = useCallback(async (selected,rows) => {
     if(selected.length > 0) {
       await Promise.all(selected.map(async id => {
+        const row = rows.find(row => row.id === id);
         id = parseInt(id);
-        await dispatch(removeRequest({
+        dispatch(removeRequest({
           token: user.token,
           Id: id,
           navigate
         }));
+        dispatch(addRequestHistory({
+          token: user.token,
+          requestId: id,
+          userId: user.id,
+          actionColumn: "Удаление Заявки",
+          prevData: `
+            ID: ${row.id};
+            FIO: ${row.fio};
+            Email: ${row.email};
+            PhoneNumber: ${row.phoneNumber};
+            Status: ${row.status};
+            UserID: ${row.userId};`,
+          newData: "-",
+          navigate
+        }))
       }));
     }
     getAllRequest();
-  }, [getAllRequest, dispatch, user.token, navigate]);
+  }, [getAllRequest, dispatch, user.token, user.id, navigate]);
 
   const [requestsKey, setRequestsKey] = useState(0);
 

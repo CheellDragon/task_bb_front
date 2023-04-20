@@ -26,6 +26,25 @@ export const createRequest = createAsyncThunk(
     }
 )
 
+export const addRequestHistory = createAsyncThunk(
+    'requests/addRequestHistory',
+    async (payload, thunkApi) => {
+        let body = new FormData();
+        body.append('requestId',payload.requestId);
+        body.append('userId',payload.userId);
+        body.append('actionColumn',payload.actionColumn);
+        body.append('prevData',payload.prevData);
+        body.append('newData',payload.newData);
+        try {
+            const response = await axios.post('http://localhost:5136/Request/AddRequestHistory', body);
+            return response.data;
+        } catch (e) {
+            payload.navigate('/status/' + e.message);
+            return null;
+        }
+    }
+)
+
 export const addRequestToUser = createAsyncThunk(
     'requests/addRequestToUser',
     async (payload, thunkApi) => {
@@ -183,7 +202,9 @@ const requestsSlice = createSlice({
             })
             .addCase(getAllRequestsHistory.fulfilled, (state, action) => {
                 state.fetching = false
-                state.requestsHistory = action.payload
+                if(action.payload !== null) {
+                    state.requestsHistory = action.payload
+                }
             })
             .addCase(closeRequest.pending, (state) => {state.fetching = true})
             .addCase(closeRequest.rejected, (state) => {state.fetching = false})
